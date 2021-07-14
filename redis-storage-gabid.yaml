@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-stroage-gabid
+spec:
+  containers:
+  - image: redis:alpine
+    name: redis-storage-gabid
+    volumeMounts:
+    - mountPath: /data/redis
+      name: redis-storage-gabid
+  volumes:
+  - name: redis-storage-gabid
+    emptyDir: {}
