@@ -52,6 +52,7 @@ kubectl get nodes -o json > /tmp/nodes-gabid
 ### Answer5:
 ```Bash
 kubectl -n apx-x998-gabid expose pod messaging --name messaging-service --port 6379
+service/messaging-service exposed
 ```
 
 ### Q6:
@@ -60,7 +61,21 @@ kubectl -n apx-x998-gabid expose pod messaging --name messaging-service --port 6
 ### Answer6:
 	same as 5
 
-
+### Q7:
+	Create a deployment named hr-web-app using the image kodekloud/webapp-color
+	with 2 replicas
+	a. Name: hr-web-app
+	b. Image: kodekloud/webapp-color
+	c. Replicas: 2
+	
+### Answer7:
+	```Bash
+	kubectl create deploy hr-web-app --image=kodekloud/webapp-color
+	deployment.apps/hr-web-app created
+	kubectl scale deploy hr-web-app --replicas=2
+	deployment.apps/hr-web-app scaled
+	
+	```
 
 
 
