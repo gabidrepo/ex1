@@ -97,3 +97,42 @@ spec:
      command: ["sleep"]
      args: ["1000"]
 ```
+
+### Q9:
+	Create a POD in the finance-yourname namespace named temp-bus with the image
+	redis:alpine
+	a. Name: temp-bus8363
+	b. Image Name: redis:alpine
+
+### Answer9:
+```yaml
+kubectl create ns finance-gabid
+namespace/finance-gabid created
+kubectl run temp-bus8363 -n finance-gabid --image=redis:alpine
+pod/temp-bus created
+```
+### Q10:
+	Create a Persistent Volume with the given specification
+	a. Volume Name: pv-analytics
+	b. Storage: 100Mi
+	c. Access modes: ReadWriteMany
+	d. Host Path: /pv/data-analytics
+### Answer10:
+[persistance-vol.yaml](/persistance-vol.yaml)
+```yaml
+kubectl create -f persistance-vol.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-analytics
+spec:
+ volumes:
+  - name: pv-analytics
+    hostPath:
+      path: /pv/data-analytics
+  capacity:    
+    storage: 100Mi  
+  accessModes:    
+  - ReadWriteMany
+```
