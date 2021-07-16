@@ -7,7 +7,7 @@
 	
 ### Answer1:
 ```Bash
-kubectl run nginx-pod --image=nginx:alpine -n apx-x998-gabid
+>kubectl run nginx-pod --image=nginx:alpine -n apx-x998-gabid
 pod/nginx-pod created
 ```
 
@@ -19,7 +19,7 @@ pod/nginx-pod created
 	
 ### Answer2:
 ```Bash
-kubectl run messaging --image=redis:alpine -l tier=msg -n apx-x998-gabid
+>kubectl run messaging --image=redis:alpine -l tier=msg -n apx-x998-gabid
 pod/messaging created
 ```
 
@@ -28,7 +28,7 @@ pod/messaging created
 
 ### Answer3:
 ```Bash
-kubectl create ns apx-x998-gabid
+>kubectl create ns apx-x998-gabid
 namespace/apx-x998-gabid created
 ```
 
@@ -37,13 +37,13 @@ namespace/apx-x998-gabid created
 
 ### Answer4:
 ```Bash
-kubectl get nodes -o json > /tmp/nodes-gabid
+>kubectl get nodes -o json > /tmp/nodes-gabid
 ```
 
 ### Q5:
 	Create a service messaging-service to expose the messaging application within the
 	cluster on port 6379.
-	a. Use imperative commands - kubectl
+	a. Use imperative commands - >kubectl
 	b. Service: messaging-service
 	c. Port: 6379
 	d. Type: ClusterIp
@@ -51,7 +51,7 @@ kubectl get nodes -o json > /tmp/nodes-gabid
 	
 ### Answer5:
 ```Bash
-kubectl -n apx-x998-gabid expose pod messaging --name messaging-service --port 6379
+>kubectl -n apx-x998-gabid expose pod messaging --name messaging-service --port 6379
 service/messaging-service exposed
 ```
 
@@ -70,9 +70,10 @@ service/messaging-service exposed
 	
 ### Answer7:
 ```Bash
-kubectl create deploy hr-web-app --image=kodekloud/webapp-color
+>kubectl create deploy hr-web-app --image=kodekloud/webapp-color
 deployment.apps/hr-web-app created
-kubectl scale deploy hr-web-app --replicas=2
+
+>kubectl scale deploy hr-web-app --replicas=2
 deployment.apps/hr-web-app scaled
 
 ```
@@ -85,7 +86,7 @@ deployment.apps/hr-web-app scaled
 
 ### Answer8:
 [busybox.yaml](/busybox.yaml)
-kubectl create -f busybox.yaml
+>kubectl create -f busybox.yaml
 pod/static-busybox created
 ```yaml
 apiVersion: v1
@@ -108,9 +109,10 @@ spec:
 
 ### Answer9:
 ```yaml
-kubectl create ns finance-gabid
+>kubectl create ns finance-gabid
 namespace/finance-gabid created
-kubectl run temp-bus8363 -n finance-gabid --image=redis:alpine
+
+>kubectl run temp-bus8363 -n finance-gabid --image=redis:alpine
 pod/temp-bus created
 ```
 ### Q10:
@@ -122,7 +124,7 @@ pod/temp-bus created
 ### Answer10:
 [persistance-vol.yaml](/persistance-vol.yaml)
 ```yaml
-kubectl create -f persistance-vol.yaml
+>kubectl create -f persistance-vol.yaml
 
 apiVersion: v1
 kind: PersistentVolume
@@ -149,7 +151,7 @@ spec:
 ### Answer11:
 [redis-storage-gabid.yaml](/redis-storage-gabid.yaml)
 ```yaml
-kubectl create -f redis-storage-gabid.yaml
+>kubectl create -f redis-storage-gabid.yaml
 pod/redis-stroage-gabid created
 
 apiVersion: v1
@@ -199,9 +201,17 @@ spec:
 	d. Task: Record the changes for the image upgrade
 ### Answer13:
 ```yaml
-kubectl run nginx-deploy --image=nginx:1.16 --replicas=1 --record
-kubectl rollout history deploy nginx-deploy
-kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
+>kubectl create deploy nginx-deploy --image=nginx:1.16 --replicas=1
+pod/nginx-deploy created
+
+>kubectl rollout history deploy nginx-deploy
+deployment.apps/nginx-deploy
+REVISION  CHANGE-CAUSE
+1         <none>
+
+>kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
+deployment.apps/nginx-deploy image updated
+
 ```
 
 ### Q14:
@@ -211,13 +221,46 @@ kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
 	lookup. Record results in /root/nginx-yourname.svc and /root/nginx-yourname.pod
 
 ### Answer14:
+```yaml
+>kubectl run nginx-resolver --image=nginx --port=80
+pod/nginx-resolver created
+
+>kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+service/nginx-resolver-service exposed
+
+>kubectl run test-nslookup --image=busybox:1.28 --rm -it -- nslookup nginx-resolver-service > /root/nginx-gabid.svc
+
+>kubectl run test-nslookup --image=busybox:1.28 --rm -it -- nslookup nginx-resolver.pod > /root/nginx-gabid.pod
+```
 
 ### Q15:
-	Create a static pod on node01 called nginx-critical with image nginx. Create this pod
-	on node01 and make sure that it is recreated/restarted automatically in case of a
-	failure.
-	
+Create a static pod on node01 called nginx-critical with image nginx. Create this pod
+on node01 and make sure that it is recreated/restarted automatically in case of a
+failure.
+
 ### Answer15:
+
+[nginx-critical.yaml](/nginx-critical.yaml)
+```yaml
+>kubectl create -f nginx-critical.yaml
+pod/nginx-critical created
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-critical
+  name: nginx-critical
+spec:
+  containers:
+  - image: nginx
+    name: nginx-critical
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+```
 
 ### Q16:
 	Create a pod called multi-pod with two containers.
@@ -230,5 +273,28 @@ kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
 	iv. name: beta
 	
 ### Answer16:
+ 
+[multi-pod.yaml](/multi-pod.yaml)
+```yaml
+>kubectl create -f multi-pod.yaml
+pod/multi-pod created
 
-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-pod
+spec:
+  containers:
+  - image: nginx
+    imagePullPolicy: IfNotPresent
+    name: alpha
+    env:
+    - name: name
+      value: alpha
+  - image: busybox
+    name: beta
+    env:
+    - name: name
+      value: beta
+    command: ["sleep","4800"]
+```
