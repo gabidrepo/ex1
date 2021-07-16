@@ -69,13 +69,31 @@ service/messaging-service exposed
 	c. Replicas: 2
 	
 ### Answer7:
-	```Bash
-	kubectl create deploy hr-web-app --image=kodekloud/webapp-color
-	deployment.apps/hr-web-app created
-	kubectl scale deploy hr-web-app --replicas=2
-	deployment.apps/hr-web-app scaled
-	
-	```
+```Bash
+kubectl create deploy hr-web-app --image=kodekloud/webapp-color
+deployment.apps/hr-web-app created
+kubectl scale deploy hr-web-app --replicas=2
+deployment.apps/hr-web-app scaled
 
+```
 
+### Q8:
+	Create a static pod named static-busybox on the master node that uses the busybox
+	image and the command sleep 1000
+	a. Name: static-busybox
+	b. Image: busybox
 
+### Answer8:
+[busybox.yaml](/busybox.yaml)
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-busybox
+spec:
+  containers:
+   - name: static-busybox
+     image: busybox
+     command: ["sleep"]
+     args: ["1000"]
+```
