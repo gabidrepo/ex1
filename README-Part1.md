@@ -85,6 +85,8 @@ deployment.apps/hr-web-app scaled
 
 ### Answer8:
 [busybox.yaml](/busybox.yaml)
+kubectl create -f busybox.yaml
+pod/static-busybox created
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -136,3 +138,97 @@ spec:
   accessModes:    
   - ReadWriteMany
 ```
+
+### Q11:
+	Create a Pod called redis-storage-yourname with image: redis:alpine with a Volume
+	of type emptyDir that lasts for the life of the Pod. specs:.
+	a. Pod named 'redis-storage-yourname'
+	b. Pod 'redis-storage-yourname' uses Volume type of emptyDir
+	c. Pod 'redis-storage-yourname' uses volumeMount with mountPath =/data/redis
+	
+### Answer11:
+[redis-storage-gabid.yaml](/redis-storage-gabid.yaml)
+```yaml
+kubectl create -f redis-storage-gabid.yaml
+pod/redis-stroage-gabid created
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-stroage-gabid
+spec:
+  containers:
+  - image: redis:alpine
+    name: redis-storage-gabid
+    volumeMounts:
+    - mountPath: /data/redis
+      name: redis-storage-gabid
+  volumes:
+  - name: redis-storage-gabid
+    emptyDir: {}
+```
+### Q12:
+	Create this pod and attached it a persistent volume called pv-1
+	a. Make sure the PV mountPath is hostbase : /data
+	apiVersion: v1
+	kind: Pod
+	metadata:
+	creationTimestamp: null
+	labels:
+	run: use-pv
+	name: use-pvspec-yourname
+	containers:
+	- image: nginx
+	name: use-pv
+	resources: {}
+	dnsPolicy: ClusterFirst
+	restartPolicy: Always
+	status: {}
+	
+### Answer12:
+
+
+********************
+### Q13:
+	Create a new deployment called nginx-deploy, with image nginx:1.16 and 1 replica.
+	Record the version. Next upgrade the deployment to version 1.17 using rolling
+	update. Make sure that the version upgrade is recorded in the resource annotation.
+	a. Deployment : nginx-deploy. Image: nginx:1.16
+	b. Image: nginx:1.16
+	c. Task: Upgrade the version of the deployment to 1:17
+	d. Task: Record the changes for the image upgrade
+### Answer13:
+```yaml
+kubectl run nginx-deploy --image=nginx:1.16 --replicas=1 --record
+kubectl rollout history deploy nginx-deploy
+kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
+```
+
+### Q14:
+	Create an nginx pod called nginx-resolver using image nginx, expose it internally
+	with a service called nginx-resolver-service. Test that you are able to look up the8363
+	service and pod names from within the cluster. Use the image: busybox:1.28 for dns
+	lookup. Record results in /root/nginx-yourname.svc and /root/nginx-yourname.pod
+
+### Answer14:
+
+### Q15:
+	Create a static pod on node01 called nginx-critical with image nginx. Create this pod
+	on node01 and make sure that it is recreated/restarted automatically in case of a
+	failure.
+	
+### Answer15:
+
+### Q16:
+	Create a pod called multi-pod with two containers.
+	Container 1, name: alpha, image: nginx
+	Container 2: beta, image: busybox, command sleep 4800.
+	a. Environment Variables:
+	i. container 1:
+	ii. name: alpha
+	iii. Container 2:
+	iv. name: beta
+	
+### Answer16:
+
+
