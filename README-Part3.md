@@ -14,30 +14,20 @@ deployment.apps/webapp created
 ```
 
 ### Q2:
-Create 5 nginx pods in which two of them is labeled env=prod and three of them is
-labeled env=dev
+Get the deployment rollout status
 ### Answer2:
 ```yaml
->kubectl run ndev1 --image=nginx --labels=env=dev
->kubectl run ndev2 --image=nginx --labels=env=dev
->kubectl run ndev3 --image=nginx --labels=env=dev
->kubectl run nprod1 --image=nginx --labels=env=prod
->kubectl run nprod2 --image=nginx --labels=env=prod
+>kubectl rollout status deploy webapp
+deployment "webapp" successfully rolled out
+
 ```
 ### Q3:
-Verify all the pods are created with correct labels
+Get the replicaset that created with this deployment
 ### Answer3:
 ```yaml
->kubectl get pods --show-labels
-NAME                            READY   STATUS    RESTARTS   AGE    LABELS
-hr-web-app-99dfd4c9d-9t8sz      1/1     Running   0          116s   app=hr-web-app,pod-template-hash=99dfd4c9d
-hr-web-app-99dfd4c9d-bpt4v      1/1     Running   0          116s   app=hr-web-app,pod-template-hash=99dfd4c9d
-ndev1                           1/1     Running   0          40s    env=dev
-ndev2                           1/1     Running   0          34s    env=dev
-ndev3                           1/1     Running   0          29s    env=dev
-nginx-deploy-6c858c4486-rpnwz   1/1     Running   0          115s   app=nginx-deploy,pod-template-hash=6c858c4486
-nprod1                          1/1     Running   0          22s    env=prod
-nprod2                          1/1     Running   0          17s    env=prod
+>kubectl get rs -l app=webapp
+NAME               DESIRED   CURRENT   READY   AGE
+webapp-5654c984c   5         5         5       8m38s
 ```
 ### Q4:
 Get the pods with label env=dev
