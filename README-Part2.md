@@ -92,13 +92,15 @@ nprod2                          1/1     Running   0          6m33s   prod
 Get the pods with labels env=dev and env=prod
 ### Answer9:
 ```yaml
-kubectl get pods -l 'env in (dev,prod)'
+>kubectl get pods -l env=dev
+>kubectl get pods -l env=prod
 ```
 ### Q10:
 Get the pods with labels env=dev and env=prod and output the labels as well
-### Answer9:
+### Answer10:
 ```yaml
-kubectl get pods -l 'env in (dev,prod)' --show-labels
+>kubectl get pods -l env=dev --show-labels
+>kubectl get pods -l env=prod --show-labels
 ```
 ### Q11:
 Change the label for one of the pod to env=uat and list all the pods to verify
@@ -152,10 +154,52 @@ nprod2                          1/1     Running   0          40m   <none>
 ```
 ### Q13:
 Let’s add the label app=nginx for all the pods and verify (using kubectl)
+### Answer13:
+```yaml
+>kubectl label pod ndev1 app=nginx
+pod/ndev1 labeled
+
+>kubectl label pod ndev2 app=nginx
+pod/ndev2 labeled
+
+>kubectl label pod ndev3 app=nginx
+pod/ndev3 labeled
+
+>kubectl label pod nprod1 app=nginx
+pod/nprod1 labeled
+
+>kubectl label pod nprod2 app=nginx
+pod/nprod2 labeled
+
+>kubectl get pod --show-labels
+NAME                            READY   STATUS    RESTARTS   AGE   LABELS
+hr-web-app-99dfd4c9d-9t8sz      1/1     Running   0          48m   app=hr-web-app,pod-template-hash=99dfd4c9d
+hr-web-app-99dfd4c9d-bpt4v      1/1     Running   0          48m   app=hr-web-app,pod-template-hash=99dfd4c9d
+ndev1                           1/1     Running   0          47m   app=nginx
+ndev2                           1/1     Running   0          47m   app=nginx
+ndev3                           1/1     Running   0          46m   app=nginx
+nginx-deploy-6c858c4486-rpnwz   1/1     Running   0          48m   app=nginx-deploy,pod-template-hash=6c858c4486
+nprod1                          1/1     Running   0          46m   app=nginx
+nprod2                          1/1     Running   0          46m   app=nginx
+
+```
 ### Q14:
 Get all the nodes with labels (if using minikube you would get only master node)
+
+### Answer14:
+```yaml
+>kubectl get nodes --show-labels
+NAME       STATUS   ROLES                  AGE    VERSION   LABELS
+minikube   Ready    control-plane,master   2d1h   v1.21.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=minikube,kubernetes.io/os=linux,minikube.k8s.io/commit=a03fbcf166e6f74ef224d4a63be4277d017bb62e,minikube.k8s.io/name=minikube,minikube.k8s.io/updated_at=2021_07_15T21_48_27_0700,minikube.k8s.io/version=v1.22.0,node-role.kubernetes.io/control-plane=,node-role.kubernetes.io/master=,node.kubernetes.io/exclude-from-external-load-balancers=
+```
+
 ### Q15:
 Label the worker node nodeName=nginxnode
+### Answer15:
+```yaml
+>kubectl label node minikube nodeName=nginxnode
+node/minikube labeled
+```
 ### Q16:
 ```yaml
 Create a Pod that will be deployed on the worker node with the label
@@ -177,8 +221,38 @@ dnsPolicy: ClusterFirst
 restartPolicy: Never
 status: {}
 ```
+###Answer16:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  nodeSelector:
+    nodeName: nginxnode
+  containers:
+    - image: nginx
+      name: nginx
+      resources: {}
+status: {}
+```
+
+
 ### Q17:
 Verify the pod that it is scheduled with the node selector on the right node… fix it if
 it’s not behind scheduled.
+###Answer17:
+```yaml
+kubectl describe po nginx | grep Node-Selectors
+```
+
 ### Q18:
 Verify the pod nginx that we just created has this label
+###Answer18:
+```yaml
+kubectl describe po nginx | grep Labels
+```
+
