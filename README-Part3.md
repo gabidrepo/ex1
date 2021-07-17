@@ -1,11 +1,16 @@
 ## Part3
 
 ### Q1:
- Type the command for:
-Get pods with label information
+1. Create a deployment called webapp with image nginx with 5 replicas
+ a. Use the below command to create a yaml file.
+ i. kubectl create deploy webapp --image=nginx --dry-run -o yaml > webapp.yaml
+ii. Edit it and add 5 replica’s
 ### Answer1:
+[webapp.yaml](/webapp.yaml)
+
 ```yaml
->kubectl get pods --show-labels
+>kubectl create -f webapp.yaml
+deployment.apps/webapp created
 ```
 
 ### Q2:
