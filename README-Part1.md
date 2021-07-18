@@ -105,7 +105,7 @@ spec:
 ### Q9:
 	Create a POD in the finance-yourname namespace named temp-bus with the image
 	redis:alpine
-	a. Name: temp-bus8363
+	a. Name: temp-bus
 	b. Image Name: redis:alpine
 
 ### Answer9:
@@ -113,7 +113,7 @@ spec:
 >kubectl create ns finance-gabid
 namespace/finance-gabid created
 
->kubectl run temp-bus8363 -n finance-gabid --image=redis:alpine
+>kubectl run temp-bus -n finance-gabid --image=redis:alpine
 pod/temp-bus created
 ```
 ### Q10:
