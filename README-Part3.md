@@ -812,8 +812,13 @@ kubectl create job hello-job --image=busybox --dry-run -o yaml -- echo "Hello I 
 from job" > hello-job.yaml”
 a. Add to the above job completions: 10 inside the yaml
 ### Answer14:
+[hello-job.yaml](/hello-job.yaml)
+
 ```yaml
 >kubectl create job hello-job --image=busybox -o yaml -- echo "Hello I am from job" > hello-job.yaml
+
+and after the file was created
+>kubectl create -f hello-job.yaml
 
 
 ```
