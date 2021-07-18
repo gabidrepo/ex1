@@ -86,9 +86,10 @@ deployment.apps/hr-web-app scaled
 
 ### Answer8:
 [busybox.yaml](/busybox.yaml)
+```yaml
 >kubectl create -f busybox.yaml
 pod/static-busybox created
-```yaml
+
 apiVersion: v1
 kind: Pod
 metadata:
