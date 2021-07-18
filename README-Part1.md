@@ -189,6 +189,31 @@ spec:
 	status: {}
 	
 ### Answer12:
+[pv-volume.yaml](/pv-volume.yaml)
+
+[pv-claim.yaml](/pv-claim.yaml)
+
+[pv-pod.yaml](/pv-pod.yaml)
+
+```bash
+>kubectl apply -f pv-volume.yaml
+persistentvolume/pv1 created
+
+>kubectl get pv pv1
+NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv1    100Mi      RWX            Retain           Available                                   41s
+
+kubectl apply -f pv-claim.yaml
+persistentvolumeclaim/pv1-claim created
+
+>kubectl apply -f pv-pod.yaml
+pod/use-pv-gabid created
+
+>kubectl get pods
+NAME                            READY   STATUS      RESTARTS   AGE
+static-busybox                  1/1     Running     17         5h47m
+use-pv-gabid                    1/1     Running     0          63s
+```
 
 
 ********************
