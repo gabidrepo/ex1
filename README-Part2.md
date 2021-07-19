@@ -221,7 +221,7 @@ dnsPolicy: ClusterFirst
 restartPolicy: Never
 status: {}
 ```
-###Answer16:
+### Answer16:
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -244,14 +244,14 @@ status: {}
 ### Q17:
 Verify the pod that it is scheduled with the node selector on the right node… fix it if
 it’s not behind scheduled.
-###Answer17:
+### Answer17:
 ```yaml
 kubectl describe po nginx | grep Node-Selectors
 ```
 
 ### Q18:
 Verify the pod nginx that we just created has this label
-###Answer18:
+### Answer18:
 ```yaml
 kubectl describe po nginx | grep Labels
 ```
